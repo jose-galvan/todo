@@ -1,7 +1,10 @@
-<StackLayout
-  flexDirection="row"
-  backgroundColor="lightgray"
-  alignItems="flex-start"
->
-  <Label text="Here Goes Todo List"  height="70"></Label>
-</StackLayout>
+<ActionBar title="ToDos"> </ActionBar>
+<GridLayout>
+  <ListView [items]="todos$ | async">
+    <ng-template let-item="item">
+      <StackLayout>
+        <Label [text]="item.Title"></Label>
+      </StackLayout>
+    </ng-template>
+  </ListView>
+</GridLayout>
