@@ -27,8 +27,18 @@ export class TodoState {
     }
 
     @Selector()
+    static getTotalTodo(state: TodoStateModel) {
+        return state.todos.filter((e) => !e.Completed).length;
+    }
+
+    @Selector()
     static getCompleted(state: TodoStateModel) {
         return state.todos.filter((e) => e.Completed);
+    }
+
+    @Selector()
+    static getTotalDone(state: TodoStateModel) {
+        return state.todos.filter((e) => e.Completed).length;
     }
 
     @Selector()

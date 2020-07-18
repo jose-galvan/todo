@@ -1,10 +1,5 @@
 <ActionBar title="ToDos"> </ActionBar>
-<GridLayout>
-  <ListView [items]="todos$ | async">
-    <ng-template let-item="item">
-      <StackLayout>
-        <Label [text]="item.Title"></Label>
-      </StackLayout>
-    </ng-template>
-  </ListView>
-</GridLayout>
+<FlexboxLayout>
+  <ns-card [total]="todo$ | async" legend="ToDos" icon="&#xf111;"> </ns-card>
+  <ns-card [total]="done$ | async" legend="Done" icon="&#xf058;"> </ns-card>
+</FlexboxLayout>

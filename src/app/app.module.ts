@@ -7,6 +7,7 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
 import { TodosService } from "./services/todos.service"
 import { TodoState } from "./store/todo.state"
+import { CardComponent } from "./components/card/card.component"
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
@@ -20,7 +21,7 @@ import { TodoState } from "./store/todo.state"
         AppRoutingModule,
         NgxsModule.forRoot([TodoState]),
     ],
-    declarations: [AppComponent, HomeComponent],
+    declarations: [AppComponent, HomeComponent, CardComponent],
     providers: [TodosService],
     schemas: [NO_ERRORS_SCHEMA],
 })

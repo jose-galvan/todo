@@ -21,21 +21,28 @@ The following CSS rule changes the font size of all Buttons that have the
 "-primary" class modifier.
 */
 Button.-primary {
-    font-size: 18;
+  font-size: 18;
 }
 
-
 .far {
-    font-family: Font Awesome 5 Free, fa-regular-400;
-    font-weight: 400;
+  font-family: Font Awesome 5 Free, fa-regular-400;
+  font-weight: 400;
 }
 
 .fab {
-    font-family: Font Awesome 5 Brands, fa-brands-400;
-    font-weight: 400;
+  font-family: Font Awesome 5 Brands, fa-brands-400;
+  font-weight: 400;
 }
 
 .fas {
-    font-family: Font Awesome 5 Free, fa-solid-900;
-    font-weight: 900;
+  font-family: Font Awesome 5 Free, fa-solid-900;
+  font-weight: 900;
+}
+
+.success {
+  color: $green;
+}
+
+.grey{
+    color: $slate-grey;
 }

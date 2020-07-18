@@ -27,7 +27,7 @@ export class TodosService {
             Title: "Get the groceries",
             Description: "On Cornershop",
             Due: null,
-            Completed: false,
+            Completed: true,
             CompletedDate: null,
         },
         {

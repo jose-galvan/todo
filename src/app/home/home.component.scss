@@ -1,5 +1,4 @@
-
-@import 'src/app/assets/scss/styleguide';
+@import "src/app/assets/scss/styleguide";
 
 FlexboxLayout {
   padding: 8;
@@ -7,35 +6,3 @@ FlexboxLayout {
   align-items: flex-start;
 }
 
-.card {
-  width: 50%;
-  height: 100;
-  padding: 16;
-  margin: 10;
-  border-radius: 20%;
-  background: $pale-grey;
-
-  &-total {
-    font-size: 30;
-    font-weight: bold;
-    position: absolute;
-    left: 100%;
-    top: 0;
-  }
-
-  &-legend {
-    position: absolute;
-    font-size: 20;
-    font-weight: 500;
-    top: 50%;
-    left: 0;
-    color: rgba($color: #000, $alpha: 0.5);
-  }
-
-  &-icon {
-    top:0;
-    left: 0;
-    color: $red;
-    background: $red;
-  }
-}

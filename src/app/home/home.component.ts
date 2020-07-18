@@ -1,18 +1,20 @@
 import { Component, OnInit } from "@angular/core";
-import { Store } from "@ngxs/store";
-import { Todo } from "../models/todo";
+import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { TodoState } from "../store/todo.state";
 @Component({
     selector: "ns-home",
     templateUrl: "./home.component.html",
+    styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-    todos$: Observable<Todo[]>;
+    @Select(TodoState.getTotalTodo)
+    todo$: Observable<number>;
 
-    constructor(private store: Store) {
-        this.todos$ = store.select(TodoState.getAll);
-    }
+    @Select(TodoState.getTotalDone)
+    done$: Observable<number>;
+
+    constructor() {}
 
     ngOnInit() {}
 }
