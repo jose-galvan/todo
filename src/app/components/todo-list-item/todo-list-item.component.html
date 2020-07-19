@@ -1,4 +1,9 @@
 <FlexboxLayout class="todo-list-item">
   <Button class="far" text="&#xf111;" (tap)="onTap()"></Button>
-  <Label [text]="todo.Title" class="card-legend"></Label>
+  <Label class="label primary" [text]="todo.Title"></Label>
+  <Label
+    *ngIf="todo.Due"
+    class="label secondary"
+    [text]="todo.Due | date"
+  ></Label>
 </FlexboxLayout>

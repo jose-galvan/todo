@@ -43,6 +43,18 @@ Button.-primary {
   color: $green;
 }
 
-.grey{
-    color: $slate-grey;
+.grey {
+  color: $slate-grey;
+}
+
+.label {
+  &.primary {
+    font-size: 16;
+    font-weight: 500;
+  }
+
+  &.secondary {
+    font-size: 12;
+    color: rgba($color: #000, $alpha: 0.6);
+  }
 }
