@@ -14,7 +14,7 @@ export class LoadTodos {
 
 export class AddTodo {
     static readonly type = ActionsType.ADD_NEW;
-    constructor(public payload: Todo) {}
+    constructor(public payload: string) {}
 }
 
 export class CompleteTodo {

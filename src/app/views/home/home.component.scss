@@ -1,5 +1,25 @@
 @import "src/app/assets/scss/styleguide";
 
+.new-todo {
+  padding:8;
+
+  TextField {
+    height: 45;
+    width: 100%;
+    border-color: $light-grey;
+    background: $pale-grey;
+    border-width: 4;
+    padding: 4;
+    border-radius: 10%;
+  }
+
+  .icon.plus {
+    margin-left: 12;
+    font-size: 20;
+    color: $blue;
+  }
+}
+
 StackLayout {
   & > Label {
     margin-left: 16;

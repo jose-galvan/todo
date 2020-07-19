@@ -14,12 +14,19 @@
     color: $light-grey;
     margin-right: 16;
 
-    &.success{
+    &.success {
       color: $green;
     }
   }
 
   Label {
     margin-right: 8;
+  }
+
+  .delete {
+    margin-left: 10;
+    color: $red;
+    opacity: 0.7;
+    font-size: 25;
   }
 }

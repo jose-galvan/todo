@@ -1,5 +1,25 @@
 <ActionBar title="Home"> </ActionBar>
-<StackLayout flexDirection="column">
+<StackLayout>
+  <GridLayout rows="50" columns="* 30" class="new-todo">
+    <TextField
+      col="0"
+      hint="New Todo"
+      [(ngModel)]="description"
+      secure="false"
+      returnKeyType="done"
+      (returnPress)="addNew()"
+      autocorrect="true"
+      maxLength="200"
+      (blur)="check($event)"
+    >
+    </TextField>
+    <Label
+      col="1"
+      class="icon plus fas"
+      text="&#xf067;"
+      (tap)="addNew()"
+    ></Label>
+  </GridLayout>
   <FlexboxLayout>
     <ns-card *ngFor="let card of cards" [card]="card"></ns-card>
   </FlexboxLayout>

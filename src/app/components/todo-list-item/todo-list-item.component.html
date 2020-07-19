@@ -1,9 +1,16 @@
-<FlexboxLayout class="todo-list-item">
+<GridLayout class="todo-list-item" columns="50, auto, *, 30">
   <Button
+    col="0"
     [ngClass]="todo.completed ? 'fas success' : 'far'"
     text="&#xf111;"
     (tap)="onTap()"
   ></Button>
-  <Label class="label primary" [text]="todo.description"></Label>
-  <Label class="label secondary" [text]="todo.createdAt | date"></Label>
-</FlexboxLayout>
+  <Label col="1" class="label primary" [text]="todo.description"></Label>
+  <Label col="2" class="label secondary" [text]="todo.createdAt | date"></Label>
+  <Button
+    col="3"
+    class="fas danger delete"
+    text="&#xf1f8;"
+    (tap)="delete()"
+  ></Button>
+</GridLayout>

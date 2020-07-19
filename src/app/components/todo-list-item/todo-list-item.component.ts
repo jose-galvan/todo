@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
-
 import { Todo } from "../../models/todo";
 import { Store } from "@ngxs/store";
-import { CompleteTodo } from "../../store/todo.actions";
+import { CompleteTodo, DeleteTodo } from "../../store/todo.actions";
 @Component({
     selector: "ns-todo-list-item",
     templateUrl: "./todo-list-item.component.html",
@@ -15,5 +14,10 @@ export class TodoListItemComponent implements OnInit {
 
     ngOnInit() {}
 
-    onTap = () => this.store.dispatch(new CompleteTodo(this.todo));
+    onTap = () => {
+        if (this.todo.completed) return;
+        this.store.dispatch(new CompleteTodo(this.todo));
+    };
+
+    delete = () => this.store.dispatch(new DeleteTodo(this.todo._id));
 }

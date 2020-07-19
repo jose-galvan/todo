@@ -1,19 +1,22 @@
 import { Injectable } from "@angular/core";
-import { State, Action, Selector, StateContext, StateToken } from "@ngxs/store";
+import { State, Action, Selector, StateContext } from "@ngxs/store";
+import {
+    insertItem,
+    patch,
+    removeItem,
+    updateItem,
+} from "@ngxs/store/operators";
 
 import { Todo } from "../models/todo";
 import { LoadTodos, AddTodo, DeleteTodo, CompleteTodo } from "./todo.actions";
-import { append, patch, removeItem, updateItem } from "@ngxs/store/operators";
 import { TodosService } from "../services/todos.service";
-
-const TODOS_STATE_TOKEN = new StateToken<TodoStateModel[]>("todos");
 
 export interface TodoStateModel {
     todos: Todo[];
 }
 
 @State<TodoStateModel>({
-    name: TODOS_STATE_TOKEN,
+    name: "todos",
     defaults: {
         todos: [],
     },
@@ -25,14 +28,14 @@ export class TodoState {
     @Selector()
     static getTodoFilteredByStatus(state: TodoStateModel) {
         return (status: boolean) => {
-            return state.todos.filter((e) => e.completed == status);
+            return state.todos.filter((e) => e.completed === status);
         };
     }
 
     @Selector()
     static getTotalByStatus(state: TodoStateModel) {
         return (status: boolean) => {
-            return state.todos.filter((e) => e.completed == status).length;
+            return state.todos.filter((e) => e.completed === status).length;
         };
     }
 
@@ -50,18 +53,10 @@ export class TodoState {
         );
     }
 
-    @Selector()
-    static getOne(state: TodoStateModel) {
-        return state.todos;
-    }
-
     @Action(LoadTodos)
     loadTodos(ctx: StateContext<TodoStateModel>) {
         this.todosService.GetAll().subscribe(({ data }) => {
-            const todos: Todo[] = data.map((e) => {
-                return e;
-            });
-            ctx.setState(patch({ todos }));
+            ctx.setState(patch({ todos: data }));
         });
     }
 
@@ -70,7 +65,7 @@ export class TodoState {
         this.todosService.Add(payload).subscribe(({ data }) => {
             ctx.setState(
                 patch({
-                    todos: append([data]),
+                    todos: insertItem(data),
                 })
             );
         });
@@ -81,11 +76,13 @@ export class TodoState {
         { setState }: StateContext<TodoStateModel>,
         { payload }: DeleteTodo
     ) {
-        setState(
-            patch<TodoStateModel>({
-                todos: removeItem((todo) => todo._id === payload),
-            })
-        );
+        this.todosService.DeleteTodo(payload).subscribe((_) => {
+            setState(
+                patch<TodoStateModel>({
+                    todos: removeItem((todo) => todo._id === payload),
+                })
+            );
+        });
     }
 
     @Action(CompleteTodo)
@@ -93,13 +90,16 @@ export class TodoState {
         { setState }: StateContext<TodoStateModel>,
         { payload }: CompleteTodo
     ) {
-        setState(
-            patch<TodoStateModel>({
-                todos: updateItem<Todo>(
-                    (todo) => todo._id === payload._id,
-                    patch<Todo>(payload)
-                ),
-            })
-        );
+        payload.completed = true;
+        this.todosService.CompleteTodo(payload._id).subscribe(() => {
+            setState(
+                patch<TodoStateModel>({
+                    todos: updateItem<Todo>(
+                        (todo) => todo._id === payload._id,
+                        patch<Todo>(payload)
+                    ),
+                })
+            );
+        });
     }
 }

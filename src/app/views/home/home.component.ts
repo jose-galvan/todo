@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { Observable } from "rxjs";
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 
 import { HomeCards } from "../../models/card";
-import { Todo } from "src/app/models/todo";
+import { Todo } from "../../models/todo";
 import { TodoState } from "../../store/todo.state";
+import { AddTodo } from "../../store/todo.actions";
 
 @Component({
     selector: "ns-home",
@@ -13,9 +14,16 @@ import { TodoState } from "../../store/todo.state";
 })
 export class HomeComponent {
     cards = HomeCards;
+    description = "";
 
     @Select(TodoState.getCreatedToday)
     latest$: Observable<Todo[]>;
 
-    constructor() {}
+    constructor(private store: Store) {}
+
+    addNew() {
+        this.store
+            .dispatch(new AddTodo(this.description))
+            .subscribe((_) => (this.description = ""));
+    }
 }

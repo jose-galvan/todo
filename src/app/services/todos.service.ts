@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-
-import { Todo } from "../models/todo";
 import { environment } from "../../environments/environment";
 
 @Injectable({
@@ -13,23 +11,16 @@ export class TodosService {
 
     constructor(private http: HttpClient) {}
 
-    Add(todo: Todo): Observable<any> {
-        return this.http.post<any>(this.BASE_URL, todo);
+    Add(description: string): Observable<any> {
+        return this.http.post(this.BASE_URL, { description });
     }
 
     GetAll(): Observable<any> {
-        return this.http.get<any>(this.BASE_URL);
-    }
-
-    GetCompleted(): Observable<Todo[]> {
-        const options = {
-            params: new HttpParams().set("completed", "true"),
-        };
-        return this.http.get<Todo[]>(this.BASE_URL, options);
+        return this.http.get(this.BASE_URL);
     }
 
     CompleteTodo(id: string): Observable<any> {
-        return this.http.put<any>(`${this.BASE_URL}${id}`, { completed: true });
+        return this.http.put(`${this.BASE_URL}${id}`, { completed: true });
     }
 
     DeleteTodo(id: string): Observable<any> {
