@@ -2,12 +2,7 @@ import { Injectable } from "@angular/core";
 import { State, Action, Selector, StateContext, StateToken } from "@ngxs/store";
 
 import { Todo } from "../models/todo";
-import {
-    LoadTodos,
-    AddTodo,
-    DeleteTodo,
-    CompleteTodo,
-} from "./todo.actions";
+import { LoadTodos, AddTodo, DeleteTodo, CompleteTodo } from "./todo.actions";
 import { append, patch, removeItem, updateItem } from "@ngxs/store/operators";
 import { TodosService } from "../services/todos.service";
 
@@ -50,7 +45,8 @@ export class TodoState {
     static getCreatedToday(state: TodoStateModel) {
         const today = new Date().toDateString();
         return state.todos.filter(
-            (e) => !e.completed && e.createdAt.toDateString() === today
+            (e) =>
+                !e.completed && new Date(e.createdAt).toDateString() === today
         );
     }
 
@@ -61,10 +57,6 @@ export class TodoState {
 
     @Action(LoadTodos)
     loadTodos(ctx: StateContext<TodoStateModel>) {
-        if (!this.todosService) {
-            console.log("todo service not injected");
-            return;
-        }
         this.todosService.GetAll().subscribe(({ data }) => {
             const todos: Todo[] = data.map((e) => {
                 return e;
