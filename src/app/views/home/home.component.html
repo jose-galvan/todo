@@ -1,4 +1,14 @@
 <ActionBar title="Home"> </ActionBar>
-<FlexboxLayout>
-  <ns-card *ngFor="let card of cards" [card]="card"></ns-card>
-</FlexboxLayout>
+<StackLayout flexDirection="column">
+  <FlexboxLayout>
+    <ns-card *ngFor="let card of cards" [card]="card"></ns-card>
+  </FlexboxLayout>
+  <Label class="title" text="Due Today"></Label>
+  <GridLayout>
+    <ListView [items]="dueToday$ | async" separatorColor="transparent">
+      <ng-template let-item="item">
+        <ns-todo-list-item [todo]="item"></ns-todo-list-item>
+      </ng-template>
+    </ListView>
+  </GridLayout>
+</StackLayout>

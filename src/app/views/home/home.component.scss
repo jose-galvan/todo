@@ -1,7 +1,13 @@
 @import "src/app/assets/scss/styleguide";
 
+StackLayout {
+  & > Label {
+    margin-left: 16;
+    font-size: 30;
+  }
+}
+
 FlexboxLayout {
   padding: 8;
-  background: $light-grey;
   align-items: flex-start;
 }

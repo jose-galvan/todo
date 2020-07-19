@@ -48,6 +48,14 @@ export class TodoState {
     }
 
     @Selector()
+    static getDueToday(state: TodoStateModel) {
+        const today = new Date().toDateString();
+        return state.todos.filter(
+            (e) => !e.Completed && e.Due.toDateString() === today
+        );
+    }
+
+    @Selector()
     static getOne(state: TodoStateModel) {
         return state.todos;
     }
