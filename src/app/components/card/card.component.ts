@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
 @Component({
     selector: "ns-card",
     templateUrl: "./card.component.html",
@@ -9,7 +9,13 @@ export class CardComponent implements OnInit {
     @Input() legend: string;
     @Input() icon: string;
 
+    @Output() tapped = new EventEmitter();
+
     constructor() {}
 
     ngOnInit() {}
+
+    redirect() {
+        this.tapped.emit();
+    }
 }

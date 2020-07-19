@@ -2,7 +2,13 @@ import { Injectable } from "@angular/core";
 import { State, Action, Selector, StateContext, StateToken } from "@ngxs/store";
 
 import { Todo } from "../models/todo";
-import { InitList, AddTodo, DeleteTodo, UpdateTodo } from "./todo.actions";
+import {
+    InitList,
+    AddTodo,
+    DeleteTodo,
+    UpdateTodo,
+    CompleteTodo,
+} from "./todo.actions";
 import { append, patch, removeItem, updateItem } from "@ngxs/store/operators";
 import { TodosService } from "../services/todos.service";
 
@@ -82,6 +88,21 @@ export class TodoState {
     update(
         { setState }: StateContext<TodoStateModel>,
         { payload }: UpdateTodo
+    ) {
+        setState(
+            patch<TodoStateModel>({
+                todos: updateItem<Todo>(
+                    (todo) => todo.Id === payload.Id,
+                    patch<Todo>(payload)
+                ),
+            })
+        );
+    }
+
+    @Action(CompleteTodo)
+    complete(
+        { setState }: StateContext<TodoStateModel>,
+        { payload }: CompleteTodo
     ) {
         setState(
             patch<TodoStateModel>({

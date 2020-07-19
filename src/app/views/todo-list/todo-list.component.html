@@ -1,0 +1,8 @@
+<ActionBar title="ToDo"> </ActionBar>
+<GridLayout>
+  <ListView [items]="todos$ | async">
+    <ng-template let-item="item">
+      <ns-todo-list-item [todo]="item"></ns-todo-list-item>
+    </ng-template>
+  </ListView>
+</GridLayout>

@@ -25,7 +25,7 @@ export class UpdateTodo {
 
 export class CompleteTodo {
     static readonly type = ActionsType.COMPLETE_TODO;
-    constructor(public payload: number) {}
+    constructor(public payload: Todo) {}
 }
 
 export class DeleteTodo {

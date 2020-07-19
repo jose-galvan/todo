@@ -4,10 +4,12 @@ import { NgxsModule } from "@ngxs/store";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { HomeComponent } from "./home/home.component";
-import { TodosService } from "./services/todos.service"
-import { TodoState } from "./store/todo.state"
-import { CardComponent } from "./components/card/card.component"
+import { HomeComponent } from "./views/home/home.component";
+import { TodosService } from "./services/todos.service";
+import { TodoState } from "./store/todo.state";
+import { CardComponent } from "./components/card/card.component";
+import { TodoListComponent } from "./views/todo-list/todo-list.component";
+import { TodoListItemComponent } from "./components/todo-list-item/todo-list-item.component";
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
@@ -21,7 +23,13 @@ import { CardComponent } from "./components/card/card.component"
         AppRoutingModule,
         NgxsModule.forRoot([TodoState]),
     ],
-    declarations: [AppComponent, HomeComponent, CardComponent],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        CardComponent,
+        TodoListItemComponent,
+        TodoListComponent,
+    ],
     providers: [TodosService],
     schemas: [NO_ERRORS_SCHEMA],
 })

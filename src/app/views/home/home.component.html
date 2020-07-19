@@ -1,0 +1,5 @@
+<ActionBar title="Home"> </ActionBar>
+<FlexboxLayout>
+  <ns-card [total]="todo$ | async" legend="ToDos" icon="&#xf111;" (tapped)="displayTodos()"> </ns-card>
+  <ns-card [total]="done$ | async" legend="Done" icon="&#xf058;"> </ns-card>
+</FlexboxLayout>
