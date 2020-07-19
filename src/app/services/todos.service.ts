@@ -1,46 +1,38 @@
 import { Injectable } from "@angular/core";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
+
 import { Todo } from "../models/todo";
+import { environment } from "../../environments/environment";
 
 @Injectable({
     providedIn: "root",
 })
 export class TodosService {
-    private todos: Todo[] = [
-        {
-            Id: 1,
-            Title: "Do the dishes",
-            Description: "...",
-            Due: null,
-            Completed: false,
-            CompletedDate: null,
-        },
-        {
-            Id: 2,
-            Title: "Do the laundry",
-            Description: "..",
-            Due: null,
-            Completed: false,
-            CompletedDate: null,
-        },
-        {
-            Id: 3,
-            Title: "Get the groceries",
-            Description: "On Cornershop",
-            Due: null,
-            Completed: true,
-            CompletedDate: null,
-        },
-        {
-            Id: 4,
-            Title: "Finish todo app",
-            Description: "Development of new app",
-            Due: null,
-            Completed: false,
-            CompletedDate: null,
-        },
-    ];
+    BASE_URL = `${environment.api}task/`;
 
-    getAll(): Todo[] {
-        return this.todos;
+    constructor(private http: HttpClient) {}
+
+    Add(todo: Todo): Observable<any> {
+        return this.http.post<any>(this.BASE_URL, todo);
+    }
+
+    GetAll(): Observable<any> {
+        return this.http.get<any>(this.BASE_URL);
+    }
+
+    GetCompleted(): Observable<Todo[]> {
+        const options = {
+            params: new HttpParams().set("completed", "true"),
+        };
+        return this.http.get<Todo[]>(this.BASE_URL, options);
+    }
+
+    CompleteTodo(id: string): Observable<any> {
+        return this.http.put<any>(`${this.BASE_URL}${id}`, { completed: true });
+    }
+
+    DeleteTodo(id: string): Observable<any> {
+        return this.http.delete(`${this.BASE_URL}${id}`);
     }
 }

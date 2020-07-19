@@ -3,9 +3,9 @@
   <FlexboxLayout>
     <ns-card *ngFor="let card of cards" [card]="card"></ns-card>
   </FlexboxLayout>
-  <Label class="title" text="Due Today"></Label>
+  <Label class="title" text="Latest"></Label>
   <GridLayout>
-    <ListView [items]="dueToday$ | async" separatorColor="transparent">
+    <ListView [items]="latest$ | async" separatorColor="transparent">
       <ng-template let-item="item">
         <ns-todo-list-item [todo]="item"></ns-todo-list-item>
       </ng-template>

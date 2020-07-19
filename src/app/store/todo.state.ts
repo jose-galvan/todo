@@ -3,10 +3,9 @@ import { State, Action, Selector, StateContext, StateToken } from "@ngxs/store";
 
 import { Todo } from "../models/todo";
 import {
-    InitList,
+    LoadTodos,
     AddTodo,
     DeleteTodo,
-    UpdateTodo,
     CompleteTodo,
 } from "./todo.actions";
 import { append, patch, removeItem, updateItem } from "@ngxs/store/operators";
@@ -31,14 +30,14 @@ export class TodoState {
     @Selector()
     static getTodoFilteredByStatus(state: TodoStateModel) {
         return (status: boolean) => {
-            return state.todos.filter((e) => e.Completed == status);
+            return state.todos.filter((e) => e.completed == status);
         };
     }
 
     @Selector()
     static getTotalByStatus(state: TodoStateModel) {
         return (status: boolean) => {
-            return state.todos.filter((e) => e.Completed == status).length;
+            return state.todos.filter((e) => e.completed == status).length;
         };
     }
 
@@ -48,10 +47,10 @@ export class TodoState {
     }
 
     @Selector()
-    static getDueToday(state: TodoStateModel) {
+    static getCreatedToday(state: TodoStateModel) {
         const today = new Date().toDateString();
         return state.todos.filter(
-            (e) => !e.Completed && e.Due.toDateString() === today
+            (e) => !e.completed && e.createdAt.toDateString() === today
         );
     }
 
@@ -60,19 +59,29 @@ export class TodoState {
         return state.todos;
     }
 
-    @Action(InitList)
-    seedList(ctx: StateContext<TodoStateModel>) {
-        const todos = this.todosService.getAll();
-        ctx.setState(patch({ todos }));
+    @Action(LoadTodos)
+    loadTodos(ctx: StateContext<TodoStateModel>) {
+        if (!this.todosService) {
+            console.log("todo service not injected");
+            return;
+        }
+        this.todosService.GetAll().subscribe(({ data }) => {
+            const todos: Todo[] = data.map((e) => {
+                return e;
+            });
+            ctx.setState(patch({ todos }));
+        });
     }
 
     @Action(AddTodo)
     addTodo(ctx: StateContext<TodoStateModel>, { payload }: AddTodo) {
-        ctx.setState(
-            patch({
-                todos: append([payload]),
-            })
-        );
+        this.todosService.Add(payload).subscribe(({ data }) => {
+            ctx.setState(
+                patch({
+                    todos: append([data]),
+                })
+            );
+        });
     }
 
     @Action(DeleteTodo)
@@ -82,22 +91,7 @@ export class TodoState {
     ) {
         setState(
             patch<TodoStateModel>({
-                todos: removeItem((todo) => todo.Id === payload),
-            })
-        );
-    }
-
-    @Action(UpdateTodo)
-    update(
-        { setState }: StateContext<TodoStateModel>,
-        { payload }: UpdateTodo
-    ) {
-        setState(
-            patch<TodoStateModel>({
-                todos: updateItem<Todo>(
-                    (todo) => todo.Id === payload.Id,
-                    patch<Todo>(payload)
-                ),
+                todos: removeItem((todo) => todo._id === payload),
             })
         );
     }
@@ -110,7 +104,7 @@ export class TodoState {
         setState(
             patch<TodoStateModel>({
                 todos: updateItem<Todo>(
-                    (todo) => todo.Id === payload.Id,
+                    (todo) => todo._id === payload._id,
                     patch<Todo>(payload)
                 ),
             })
