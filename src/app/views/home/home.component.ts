@@ -1,9 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Select } from "@ngxs/store";
-import { Observable } from "rxjs";
 
-import { TodoState } from "../../store/todo.state";
-import { Router } from "@angular/router";
+import { HomeCards } from "../../models/card";
 
 @Component({
     selector: "ns-home",
@@ -11,17 +8,9 @@ import { Router } from "@angular/router";
     styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-    @Select(TodoState.getTotalTodo)
-    todo$: Observable<number>;
+    cards = HomeCards;
 
-    @Select(TodoState.getTotalDone)
-    done$: Observable<number>;
-
-    constructor(private router: Router) {}
+    constructor() {}
 
     ngOnInit() {}
-
-    displayTodos() {
-        this.router.navigate(['/todos']);
-    }
 }

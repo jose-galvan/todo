@@ -27,24 +27,19 @@ export interface TodoStateModel {
 @Injectable()
 export class TodoState {
     constructor(private todosService: TodosService) {}
+
     @Selector()
-    static getTodos(state: TodoStateModel) {
-        return state.todos.filter((e) => !e.Completed);
+    static getTodoFilteredByStatus(state: TodoStateModel) {
+        return (status: boolean) => {
+            return state.todos.filter((e) => e.Completed == status);
+        };
     }
 
     @Selector()
-    static getTotalTodo(state: TodoStateModel) {
-        return state.todos.filter((e) => !e.Completed).length;
-    }
-
-    @Selector()
-    static getCompleted(state: TodoStateModel) {
-        return state.todos.filter((e) => e.Completed);
-    }
-
-    @Selector()
-    static getTotalDone(state: TodoStateModel) {
-        return state.todos.filter((e) => e.Completed).length;
+    static getTotalByStatus(state: TodoStateModel) {
+        return (status: boolean) => {
+            return state.todos.filter((e) => e.Completed == status).length;
+        };
     }
 
     @Selector()

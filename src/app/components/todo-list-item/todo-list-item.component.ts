@@ -1,11 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 
 import { Todo } from "../../models/todo";
-import { Store, Select } from "@ngxs/store";
+import { Store } from "@ngxs/store";
 import { CompleteTodo } from "../../store/todo.actions";
-import { Observable } from "rxjs";
-import { TodoState } from "../../store/todo.state";
-
 @Component({
     selector: "ns-todo-list-item",
     templateUrl: "./todo-list-item.component.html",
@@ -13,8 +10,7 @@ import { TodoState } from "../../store/todo.state";
 })
 export class TodoListItemComponent implements OnInit {
     @Input() todo: Todo;
-    @Select(TodoState.getTotalTodo)
-    total$: Observable<number>;
+
     constructor(private store: Store) {}
 
     ngOnInit() {}

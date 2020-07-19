@@ -1,5 +1,5 @@
 <AbsoluteLayout class="card" (tap)="redirect()">
-    <Label class="icon fas" [text]="icon"></Label>
-    <Label [text]="total" class="card-total"></Label>
-    <Label [text]="legend" class="card-legend"></Label>
+  <Label class="icon" [ngClass]="card.iconClass" text="&#xf111;"></Label>
+  <Label [text]="total$ |async" class="card-total"></Label>
+  <Label [text]="card.legend" class="card-legend"></Label>
 </AbsoluteLayout>
