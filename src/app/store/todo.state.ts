@@ -10,6 +10,7 @@ import {
 import { Todo } from "../models/todo";
 import { LoadTodos, AddTodo, DeleteTodo, CompleteTodo } from "./todo.actions";
 import { TodosService } from "../services/todos.service";
+import { tap } from "rxjs/operators";
 
 export interface TodoStateModel {
     todos: Todo[];
@@ -40,12 +41,7 @@ export class TodoState {
     }
 
     @Selector()
-    static getAll(state: TodoStateModel) {
-        return state.todos;
-    }
-
-    @Selector()
-    static getCreatedToday(state: TodoStateModel) {
+    static getLatest(state: TodoStateModel) {
         const today = new Date().toDateString();
         return state.todos.filter(
             (e) =>
@@ -55,20 +51,24 @@ export class TodoState {
 
     @Action(LoadTodos)
     loadTodos(ctx: StateContext<TodoStateModel>) {
-        this.todosService.GetAll().subscribe(({ data }) => {
-            ctx.setState(patch({ todos: data }));
-        });
+        return this.todosService.GetAll().pipe(
+            tap(({ data }) => {
+                ctx.setState(patch({ todos: data }));
+            })
+        );
     }
 
     @Action(AddTodo)
     addTodo(ctx: StateContext<TodoStateModel>, { payload }: AddTodo) {
-        this.todosService.Add(payload).subscribe(({ data }) => {
-            ctx.setState(
-                patch({
-                    todos: insertItem(data),
-                })
-            );
-        });
+        return this.todosService.Add(payload).pipe(
+            tap(({ data }) => {
+                ctx.setState(
+                    patch({
+                        todos: insertItem(data),
+                    })
+                );
+            })
+        );
     }
 
     @Action(DeleteTodo)
@@ -76,13 +76,15 @@ export class TodoState {
         { setState }: StateContext<TodoStateModel>,
         { payload }: DeleteTodo
     ) {
-        this.todosService.DeleteTodo(payload).subscribe((_) => {
-            setState(
-                patch<TodoStateModel>({
-                    todos: removeItem((todo) => todo._id === payload),
-                })
-            );
-        });
+        return this.todosService.DeleteTodo(payload).pipe(
+            tap(() => {
+                setState(
+                    patch<TodoStateModel>({
+                        todos: removeItem((todo) => todo._id === payload),
+                    })
+                );
+            })
+        );
     }
 
     @Action(CompleteTodo)
@@ -90,16 +92,17 @@ export class TodoState {
         { setState }: StateContext<TodoStateModel>,
         { payload }: CompleteTodo
     ) {
-        payload.completed = true;
-        this.todosService.CompleteTodo(payload._id).subscribe(() => {
-            setState(
-                patch<TodoStateModel>({
-                    todos: updateItem<Todo>(
-                        (todo) => todo._id === payload._id,
-                        patch<Todo>(payload)
-                    ),
-                })
-            );
-        });
+        return this.todosService.CompleteTodo(payload._id).pipe(
+            tap(() => {
+                setState(
+                    patch<TodoStateModel>({
+                        todos: updateItem<Todo>(
+                            (todo) => todo._id === payload._id,
+                            patch({ completed: true })
+                        ),
+                    })
+                );
+            })
+        );
     }
 }

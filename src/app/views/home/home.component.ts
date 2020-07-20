@@ -16,14 +16,13 @@ export class HomeComponent {
     cards = HomeCards;
     description = "";
 
-    @Select(TodoState.getCreatedToday)
+    @Select(TodoState.getLatest)
     latest$: Observable<Todo[]>;
 
     constructor(private store: Store) {}
 
     addNew() {
-        this.store
-            .dispatch(new AddTodo(this.description))
-            .subscribe((_) => (this.description = ""));
+        this.store.dispatch(new AddTodo(this.description));
+        this.description = "";
     }
 }
