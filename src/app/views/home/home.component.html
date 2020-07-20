@@ -22,7 +22,7 @@
   <FlexboxLayout>
     <ns-card *ngFor="let card of cards" [card]="card"></ns-card>
   </FlexboxLayout>
-  <Label class="title" text="Latest"></Label>
+  <Label *ngIf="itemsToDisplay" class="title" text="Latest"></Label>
   <GridLayout>
     <ListView [items]="latest$ | async" separatorColor="transparent">
       <ng-template let-item="item">

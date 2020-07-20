@@ -19,7 +19,11 @@ export class HomeComponent {
     @Select(TodoState.getLatest)
     latest$: Observable<Todo[]>;
 
-    constructor(private store: Store) {}
+    itemsToDisplay = false;
+
+    constructor(private store: Store) {
+        this.latest$.subscribe((e) => (this.itemsToDisplay = e.length > 0));
+    }
 
     addNew() {
         this.store.dispatch(new AddTodo(this.description));

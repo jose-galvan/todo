@@ -8,4 +8,12 @@
       color: $green;
     }
   }
+
+  > .label{
+    width: 100%;
+    text-align: center;
+    color: $slate-grey;
+    font-size: 25;
+    margin-top: 20;
+  }
 }

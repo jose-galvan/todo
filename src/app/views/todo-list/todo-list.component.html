@@ -1,6 +1,7 @@
 <ActionBar> </ActionBar>
 <StackLayout class="todo-list">
   <Label class="title" [ngClass]="titleClass" [text]="title"></Label>
+  <Label class="label secondary" *ngIf="!itemsToDisplay" text="Nothing to display"></Label>
   <GridLayout>
     <ListView [items]="todos$ | async" separatorColor="transparent">
       <ng-template let-item="item">

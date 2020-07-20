@@ -14,15 +14,19 @@ export class TodoListComponent {
     todos$: Observable<Todo[]>;
     title = "";
     titleClass = "";
+    itemsToDisplay = false;
 
     constructor(private route: ActivatedRoute, private store: Store) {
-        const completed = "true" === this.route.snapshot.paramMap.get("completed");
+        const completed =
+            "true" === this.route.snapshot.paramMap.get("completed");
         this.title = completed ? "Done" : "ToDo";
         this.titleClass = completed ? "success" : "";
 
         this.todos$ = this.store
             .select(TodoState.getTodoFilteredByStatus)
             .pipe(map((filterFn) => filterFn(completed)));
+
+        this.todos$.subscribe((e) => (this.itemsToDisplay = e.length > 0));
     }
 
 }
