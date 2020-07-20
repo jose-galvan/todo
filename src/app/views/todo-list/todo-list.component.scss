@@ -1,0 +1,11 @@
+@import "src/app/assets/scss/styleguide";
+
+.todo-list {
+  .title {
+    margin-left: 16;
+    color: $blue;
+    &.success {
+      color: $green;
+    }
+  }
+}

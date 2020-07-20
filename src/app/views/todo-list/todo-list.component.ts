@@ -12,13 +12,17 @@ import { map } from "rxjs/operators";
 })
 export class TodoListComponent {
     todos$: Observable<Todo[]>;
+    title = "";
+    titleClass = "";
 
     constructor(private route: ActivatedRoute, private store: Store) {
-        const completed = this.route.snapshot.paramMap.get("completed");
+        const completed = "true" === this.route.snapshot.paramMap.get("completed");
+        this.title = completed ? "Done" : "ToDo";
+        this.titleClass = completed ? "success" : "";
 
         this.todos$ = this.store
             .select(TodoState.getTodoFilteredByStatus)
-            .pipe(map((filterFn) => filterFn(completed === "true")));
+            .pipe(map((filterFn) => filterFn(completed)));
     }
 
 }

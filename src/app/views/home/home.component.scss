@@ -1,7 +1,7 @@
 @import "src/app/assets/scss/styleguide";
 
 .new-todo {
-  padding:8;
+  padding: 8;
 
   TextField {
     height: 45;
@@ -23,7 +23,8 @@
 StackLayout {
   & > Label {
     margin-left: 16;
-    font-size: 30;
+    font-size: 35;
+    color: $blue;
   }
 }
 

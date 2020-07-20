@@ -1,8 +1,11 @@
-<ActionBar title="ToDo"> </ActionBar>
-<GridLayout>
-  <ListView [items]="todos$ | async" separatorColor="transparent">
-    <ng-template let-item="item">
-      <ns-todo-list-item [todo]="item"></ns-todo-list-item>
-    </ng-template>
-  </ListView>
-</GridLayout>
+<ActionBar> </ActionBar>
+<StackLayout class="todo-list">
+  <Label class="title" [ngClass]="titleClass" [text]="title"></Label>
+  <GridLayout>
+    <ListView [items]="todos$ | async" separatorColor="transparent">
+      <ng-template let-item="item">
+        <ns-todo-list-item [todo]="item"></ns-todo-list-item>
+      </ng-template>
+    </ListView>
+  </GridLayout>
+</StackLayout>

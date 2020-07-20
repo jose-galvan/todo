@@ -4,7 +4,7 @@ export enum ActionsType {
     LOAD_TODOS = "[TODO] Load todo list",
     ADD_NEW = "[TODO] Add New",
     COMPLETE_TODO = "[TODO] Complete todo",
-    DELETE_TODO = "[TODO] Delete todo",
+    DELETE_TODO = "[TODO] Delete todo"
 }
 
 export class LoadTodos {
