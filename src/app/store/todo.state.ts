@@ -63,7 +63,8 @@ export class TodoState {
         );
         return this.todosService.GetAll().pipe(
             tap(({ data }) => {
-                setState(patch({ todos: data, isBusy: false }));
+                setState(patch({ todos: data }));
+                patch<TodoStateModel>({ isBusy: false });
             })
         );
     }
@@ -75,12 +76,8 @@ export class TodoState {
         );
         return this.todosService.Add(payload).pipe(
             tap(({ data }) => {
-                setState(
-                    patch({
-                        todos: insertItem(data),
-                        isBusy: false,
-                    })
-                );
+                patch<TodoStateModel>({ isBusy: false });
+                setState(patch({ todos: insertItem(data) }));
             })
         );
     }
