@@ -24,6 +24,15 @@ Button.-primary {
   font-size: 18;
 }
 
+.loader {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: $white;
+  opacity: 0.3;
+}
+
 .far {
   font-family: Font Awesome 5 Free, fa-regular-400;
   font-weight: 400;

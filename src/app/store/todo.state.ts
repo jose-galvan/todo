@@ -14,17 +14,24 @@ import { tap } from "rxjs/operators";
 
 export interface TodoStateModel {
     todos: Todo[];
+    isBusy: boolean;
 }
 
 @State<TodoStateModel>({
     name: "todos",
     defaults: {
         todos: [],
+        isBusy: false,
     },
 })
 @Injectable()
 export class TodoState {
     constructor(private todosService: TodosService) {}
+
+    @Selector()
+    static isBusy(state: TodoStateModel) {
+        return state.isBusy;
+    }
 
     @Selector()
     static getTodoFilteredByStatus(state: TodoStateModel) {
@@ -50,21 +57,28 @@ export class TodoState {
     }
 
     @Action(LoadTodos)
-    loadTodos(ctx: StateContext<TodoStateModel>) {
+    loadTodos({ setState }: StateContext<TodoStateModel>) {
+        setState(
+            patch<TodoStateModel>({ isBusy: true })
+        );
         return this.todosService.GetAll().pipe(
             tap(({ data }) => {
-                ctx.setState(patch({ todos: data }));
+                setState(patch({ todos: data, isBusy: false }));
             })
         );
     }
 
     @Action(AddTodo)
-    addTodo(ctx: StateContext<TodoStateModel>, { payload }: AddTodo) {
+    addTodo({ setState }: StateContext<TodoStateModel>, { payload }: AddTodo) {
+        setState(
+            patch<TodoStateModel>({ isBusy: true })
+        );
         return this.todosService.Add(payload).pipe(
             tap(({ data }) => {
-                ctx.setState(
+                setState(
                     patch({
                         todos: insertItem(data),
+                        isBusy: false,
                     })
                 );
             })
@@ -76,11 +90,15 @@ export class TodoState {
         { setState }: StateContext<TodoStateModel>,
         { payload }: DeleteTodo
     ) {
+        setState(
+            patch<TodoStateModel>({ isBusy: true })
+        );
         return this.todosService.DeleteTodo(payload).pipe(
             tap(() => {
                 setState(
                     patch<TodoStateModel>({
                         todos: removeItem((todo) => todo._id === payload),
+                        isBusy: false,
                     })
                 );
             })
@@ -92,14 +110,18 @@ export class TodoState {
         { setState }: StateContext<TodoStateModel>,
         { payload }: CompleteTodo
     ) {
+        setState(
+            patch<TodoStateModel>({ isBusy: true })
+        );
         return this.todosService.CompleteTodo(payload._id).pipe(
-            tap(() => {
+            tap(({ data }) => {
                 setState(
                     patch<TodoStateModel>({
                         todos: updateItem<Todo>(
                             (todo) => todo._id === payload._id,
-                            patch({ completed: true })
+                            patch({ ...data })
                         ),
+                        isBusy: false,
                     })
                 );
             })
