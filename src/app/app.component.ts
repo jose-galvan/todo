@@ -19,10 +19,10 @@ export class AppComponent {
     ) {}
 
     ngOnInit() {
-        this.ensureLoggedIn();
+        this.impersonateUser();
     }
 
-    ensureLoggedIn() {
+    impersonateUser() {
         this.authenticationService.login().subscribe(({ token }) => {
             setString("token", token);
             this.store.dispatch(new LoadTodos());
