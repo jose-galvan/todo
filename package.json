@@ -42,7 +42,7 @@
     "karma-nativescript-launcher": "0.4.0",
     "karma-webpack": "3.0.5",
     "nativescript-dev-webpack": "~1.5.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "sass-loader": "^9.0.2",
     "tns-platform-declarations": "~6.5.0",
     "typescript": "~3.8.3"
